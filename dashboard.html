@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deriv Matcher - Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 30px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        h1 {
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 2.5em;
+        }
+
+        .subtitle {
+            color: #666;
+            font-size: 1.1em;
+        }
+
+        .metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .metric-card {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            border-left: 5px solid #667eea;
+        }
+
+        .metric-label {
+            color: #999;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .metric-value {
+            color: #667eea;
+            font-size: 2em;
+            font-weight: bold;
+        }
+
+        .predictions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .prediction-card {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .prediction-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .market-name {
+            color: #667eea;
+            font-weight: bold;
+            font-size: 1.2em;
+            margin-bottom: 15px;
+        }
+
+        .digit-display {
+            display: inline-block;
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5em;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .prediction-row {
+            display: flex;
+            justify-content: space-between;
+            margin: 10px 0;
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .prediction-row:last-child {
+            border-bottom: none;
+        }
+
+        .row-label {
+            color: #999;
+            font-weight: 500;
+        }
+
+        .row-value {
+            color: #333;
+            font-weight: bold;
+        }
+
+        .confidence {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: bold;
+        }
+
+        .trend {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: bold;
+        }
+
+        .trend.rising {
+            background: #4caf50;
+            color: white;
+        }
+
+        .trend.falling {
+            background: #f44336;
+            color: white;
+        }
+
+        .trend.stable {
+            background: #ff9800;
+            color: white;
+        }
+
+        .volatility {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: bold;
+        }
+
+        .volatility.low {
+            background: #4caf50;
+            color: white;
+        }
+
+        .volatility.medium {
+            background: #ff9800;
+            color: white;
+        }
+
+        .volatility.high {
+            background: #f44336;
+            color: white;
+        }
+
+        .footer {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 30px;
+            text-align: center;
+            color: #666;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.7; }
+            100% { opacity: 1; }
+        }
+
+        .live-indicator {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            background: #4caf50;
+            border-radius: 50%;
+            animation: pulse 1s infinite;
+            margin-right: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎯 Deriv Matcher Dashboard</h1>
+            <p class="subtitle">Real-time Digit Prediction System - Unified Multi-Language Analysis</p>
+        </header>
+
+        <div class="metrics">
+            <div class="metric-card">
+                <div class="metric-label">Markets Analyzed</div>
+                <div class="metric-value">5</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-label">Digit Range</div>
+                <div class="metric-value">0-9</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-label">Expiration Range</div>
+                <div class="metric-value">5-300s</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-label">Status</div>
+                <div class="metric-value"><span class="live-indicator"></span>Live</div>
+            </div>
+        </div>
+
+        <div class="predictions-grid" id="predictionsContainer">
+            <!-- Predictions will be loaded here -->
+        </div>
+
+        <div class="footer">
+            <p>💡 Load <strong>prediction_report.json</strong> from Python or TypeScript runs to see live predictions</p>
+            <p style="margin-top: 10px; font-size: 0.9em;">📊 Built with Python & TypeScript | Scans R_100, R_50, R_25, RDBULL, RDBEAR</p>
+        </div>
+    </div>
+
+    <script>
+        // Sample data for demonstration
+        const sampleData = {
+            'R_100': {
+                predicted_digit: 7,
+                confidence: 0.85,
+                expiration_seconds: 45,
+                match_probability: 0.82,
+                volatility_trend: 'rising',
+                analysis_data: {
+                    volatility: 2.34,
+                    volatility_level: 'medium',
+                    bid: 100.42,
+                    ask: 100.47,
+                    spread: 0.05
+                }
+            },
+            'R_50': {
+                predicted_digit: 3,
+                confidence: 0.72,
+                expiration_seconds: 30,
+                match_probability: 0.68,
+                volatility_trend: 'stable',
+                analysis_data: {
+                    volatility: 1.95,
+                    volatility_level: 'medium',
+                    bid: 50.21,
+                    ask: 50.25,
+                    spread: 0.04
+                }
+            },
+            'R_25': {
+                predicted_digit: 9,
+                confidence: 0.91,
+                expiration_seconds: 60,
+                match_probability: 0.88,
+                volatility_trend: 'rising',
+                analysis_data: {
+                    volatility: 2.78,
+                    volatility_level: 'high',
+                    bid: 25.15,
+                    ask: 25.18,
+                    spread: 0.03
+                }
+            },
+            'RDBULL': {
+                predicted_digit: 5,
+                confidence: 0.79,
+                expiration_seconds: 40,
+                match_probability: 0.75,
+                volatility_trend: 'falling',
+                analysis_data: {
+                    volatility: 1.65,
+                    volatility_level: 'low',
+                    bid: 102.34,
+                    ask: 102.38,
+                    spread: 0.04
+                }
+            },
+            'RDBEAR': {
+                predicted_digit: 2,
+                confidence: 0.76,
+                expiration_seconds: 25,
+                match_probability: 0.72,
+                volatility_trend: 'stable',
+                analysis_data: {
+                    volatility: 1.58,
+                    volatility_level: 'low',
+                    bid: 97.89,
+                    ask: 97.93,
+                    spread: 0.04
+                }
+            }
+        };
+
+        function createPredictionCard(market, prediction) {
+            return `
+                <div class="prediction-card">
+                    <div class="market-name">${market}</div>
+                    <div class="digit-display">${prediction.predicted_digit}</div>
+                    
+                    <div class="prediction-row">
+                        <span class="row-label">Confidence:</span>
+                        <span class="row-value confidence">${(prediction.confidence * 100).toFixed(0)}%</span>
+                    </div>
+                    
+                    <div class="prediction-row">
+                        <span class="row-label">Match Probability:</span>
+                        <span class="row-value">${(prediction.match_probability * 100).toFixed(0)}%</span>
+                    </div>
+                    
+                    <div class="prediction-row">
+                        <span class="row-label">Expiration:</span>
+                        <span class="row-value">${prediction.expiration_seconds}s</span>
+                    </div>
+                    
+                    <div class="prediction-row">
+                        <span class="row-label">Trend:</span>
+                        <span class="row-value trend ${prediction.volatility_trend}">${prediction.volatility_trend.toUpperCase()}</span>
+                    </div>
+                    
+                    <div class="prediction-row">
+                        <span class="row-label">Volatility:</span>
+                        <span class="row-value volatility ${prediction.analysis_data.volatility_level}">${prediction.analysis_data.volatility_level.toUpperCase()}</span>
+                    </div>
+                    
+                    <div class="prediction-row">
+                        <span class="row-label">Volatility Level:</span>
+                        <span class="row-value">${prediction.analysis_data.volatility.toFixed(2)}</span>
+                    </div>
+                    
+                    <div class="prediction-row">
+                        <span class="row-label">Bid/Ask Spread:</span>
+                        <span class="row-value">${prediction.analysis_data.spread.toFixed(4)}</span>
+                    </div>
+                </div>
+            `;
+        }
+
+        function loadDashboard() {
+            const container = document.getElementById('predictionsContainer');
+            let html = '';
+            
+            for (const [market, prediction] of Object.entries(sampleData)) {
+                html += createPredictionCard(market, prediction);
+            }
+            
+            container.innerHTML = html;
+        }
+
+        // Load on page load
+        window.addEventListener('DOMContentLoaded', loadDashboard);
+    </script>
+</body>
+</html>

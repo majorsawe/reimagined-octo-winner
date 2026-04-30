@@ -1,6 +1,5 @@
 /**
- * Shared Types for Deriv Matcher
- * Used across all language implementations
+ * Unified Types for Deriv Matcher
  */
 
 export interface VolatilityData {
@@ -13,17 +12,6 @@ export interface VolatilityData {
   spread: number;
 }
 
-export interface DigitPrediction {
-  predicted_digit: number; // 0-9
-  confidence: number; // 0.0-1.0
-  expiration_seconds: number; // 5-300 seconds
-  match_probability: number; // 0.0-1.0
-  volatility_trend: 'rising' | 'falling' | 'stable';
-  symbol: string;
-  timestamp: number;
-  analysis_data: AnalysisData;
-}
-
 export interface AnalysisData {
   volatility: number;
   volatility_level: 'low' | 'medium' | 'high';
@@ -33,8 +21,20 @@ export interface AnalysisData {
   digit_frequency: Record<number, number>;
 }
 
+export interface DigitPrediction {
+  predicted_digit: number;
+  confidence: number;
+  expiration_seconds: number;
+  match_probability: number;
+  volatility_trend: 'rising' | 'falling' | 'stable';
+  symbol: string;
+  timestamp: number;
+  analysis_data: AnalysisData;
+}
+
 export interface PredictionReport {
   timestamp: string;
+  scan_number: number;
   predictions: Record<string, DigitPrediction>;
 }
 

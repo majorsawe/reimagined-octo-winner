@@ -1,0 +1,17 @@
+{
+  "name": "deriv-matcher-unified",
+  "version": "1.0.0",
+  "description": "Unified Deriv digit markets prediction system",
+  "main": "dist/index.js",
+  "scripts": {
+    "dev": "ts-node src/index.ts",
+    "build": "tsc",
+    "start": "node dist/index.js"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "typescript": "^5.0.0",
+    "ts-node": "^10.0.0"
+  }
+}
