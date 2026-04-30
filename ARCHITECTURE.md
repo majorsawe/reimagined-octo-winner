@@ -109,7 +109,7 @@ match_probability = (confidence * 0.6) + (frequency_score * 0.4)
     │ Scan All Markets │ → VolatilityData for each market
     └──────┬───────────┘
            ↓
-    ┌───────���──────────────────┐
+    ┌──────────────────────────┐
     │ Generate All Predictions │ → DigitPrediction for each market
     └──────┬───────────────────┘
            ↓
